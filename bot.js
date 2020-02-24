@@ -1,12 +1,10 @@
-//  __   __  ___        ___
-// |__) /  \  |  |__/ |  |
-// |__) \__/  |  |  \ |  |
-
-// This is the main file for the chatbot challenge bot.
-
-// Import Botkit's core features
 const { Botkit } = require("botkit");
 const { BotkitCMSHelper } = require("botkit-plugin-cms");
+const mongoose = require("mongoose");
+const express = require("express");
+const path = require("path");
+
+///////////////////// BOTKIT  /////////////////////
 
 // Import a platform-specific adapter for web.
 
@@ -28,9 +26,7 @@ const adapter = new WebAdapter({});
 
 const controller = new Botkit({
   webhook_uri: "/api/messages",
-
   adapter: adapter,
-
   storage
 });
 
@@ -63,7 +59,44 @@ controller.ready(() => {
 });
 
 
+
+/** INIT THE SERVER */
+const app = express();
+
+/** ROUTERS */
+const movieRouter = require("./routes/movies");
+
+/** CONNECT TO MONGO */
+
+mongoose.connect("mongodb://localhost:27017/Chatbot-challenge", {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
+
+mongoose.connection.on(
+  "error",
+  console.error.bind(console, "connection error:")
+);
+
+mongoose.connection.on("open", () => {
+  console.log(`Connected to the database...`);
+});
+
+mongoose.connection.on("error", console.error.bind(console, "connection error:"));
+
+//ROUTES
+app.use("/movies", movieRouter);
+
+//Kommunikation zwischen Bot und User
+
 controller.hears("hello", "message", async (bot, message) => {
   // do something!
   await bot.reply(message, "Hello, how can I help you?");
+});
+
+controller.hears("movie", "message", async (bot, message) => {
+  // do something!
+  await bot.reply(message, "Here are some movies");
 });
