@@ -1,0 +1,20 @@
+{
+  "name": "movies-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "bot.js",
+  "scripts": {
+    "start": "DEBUG=movies-api:* nodemon --inspect ./bin/www",
+    "seed": "node seed/seed.js",
+    "build": "node build --output public"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "express-validator": "^6.2.0",
+    "http-errors": "^1.7.3",
+    "mongoose": "^5.7.10",
+    "morgan": "~1.9.1"
+  }
+}
