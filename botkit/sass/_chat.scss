@@ -161,7 +161,7 @@ $human_message_text: white;
       color: $human_message_text;
 
   }
-
+ 
   #message_replies {
       text-align: center;
       overflow-x: auto;
@@ -225,4 +225,8 @@ $human_message_text: white;
   50% {
     opacity: 1;
   }
+}
+.img-movie {
+  width: 20px;
+  height: 20px;
 }
