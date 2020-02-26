@@ -4,16 +4,11 @@
 
 // This is the main file for the botkit bot.
 
-
-
-
-
 // Import Botkit's core features
 const { Botkit } = require("botkit");
 const { BotkitCMSHelper } = require("botkit-plugin-cms");
 const urlMetadata = require("url-metadata");
 
-const filterArr = [];
 
 // Import a platform-specific adapter for web.
 
@@ -69,20 +64,47 @@ controller.ready(() => {
   }
 });
 
-controller.hears(["hello","hallo"], "message", async (bot, message) => {
-  // do something!
-  await bot.reply(message, "Hello, how can I help you?");
-});
+//  Quick reply Option
+
+var reply = {
+  text: "Wie kann ich dir weiterhelfen?",
+  quick_replies: [
+    {
+      title: "Einen Film vorschlagen",
+      payload: "movie"
+    },
+    {
+      title: "Ich bin gerade wunschlos glücklich!",
+      payload: "help"
+    }
+  ]
+};
 
 controller.hears(
-  ["movie","film"],
+  ["hello", "hallo", "Guten Tag"],
+  "message",
+  async (bot, message) => {
+    // do something!
+    await bot.reply(message, reply);
+  }
+);
+
+controller.hears(
+  ["Einen Film vorschlagen", "movie", "film", "Schlag mir einen Film vor"],
   "message",
   async (bot, response_message, response) => {
     const url = "http://localhost:8000/movies/random";
     const data = await (await fetch(url)).json();
     const metadata = await urlMetadata(data.url);
-    await bot.reply(response_message, `Hier, der könnte dir gefallen: ${metadata.title}`);
-    await bot.reply(response_message,`${metadata.description}`)
-    await bot.reply(response_message, `<img style="width:450px; height"200px", src=${metadata.image}/>`);
+    await bot.reply(
+      response_message,
+      `<div><p>Hier, der könnte dir gefallen: ${metadata.title}</p><p>${metadata.description}</p><div height:50px"><img src=${metadata.image}/></div></div>`
+    );
+
+    // await bot.reply(response_message, `${metadata.description}`);
+    // await bot.reply(
+    //   response_message,
+    //   `<img class="steve" style="width:200px; height"200px", src=${metadata.image}/>`
+    // );
   }
 );
