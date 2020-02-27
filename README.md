@@ -14,7 +14,7 @@ User: "Hallo"
 
 Bot(Quick reply): "Wie kann ich dir weiterhelfen?" : "Einen Film vorschlagen" / "Ich bin gerade wunschlos glücklich!"
 
-(Random Film wird vorgeschlagen) => (Hinweis: die  Ladedauer kann etwas länger sein, weil durch das Deployment."
+(Random Film wird vorgeschlagen) => (Hinweis: die  Ladedauer kann druch das Deployment etwas länger dauern..")
 
 User: "Danke"
 
