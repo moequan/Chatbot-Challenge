@@ -9,6 +9,7 @@ Bitte die Repository klonen, `cd` ins Terminal schreiben um in das Projekt zu ko
 Anschließend, `npm start` in `/botkit` verwenden um die App zu starten. Am Ende `http://localhost:3000/` im Browser öffnen.
 
 Beispiel:
+
 User: "Hallo"
 Bot(Quick reply): "Wie kann ich dir weiterhelfen?" : "Einen Film vorschlagen" / "Ich bin gerade wunschlos glücklich!"
 
