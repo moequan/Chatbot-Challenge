@@ -17,7 +17,8 @@ const app = express();
 app.use(logger("dev"));
 
 /** CONNECT TO MONGO */
-mongoose.connect("mongodb://localhost:27017/movies-api", {
+mongoose.connect("mongodb+srv://chatbot123:chatbot123@moviecluster-nh4eg.mongodb.net/test?retryWrites=true&w=majority"
+  , {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,

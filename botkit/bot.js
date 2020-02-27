@@ -1,22 +1,12 @@
-//  __   __  ___        ___
-// |__) /  \  |  |__/ |  |
-// |__) \__/  |  |  \ |  |
-
-// This is the main file for the botkit bot.
-
-// Import Botkit's core features
 const { Botkit } = require("botkit");
 const { BotkitCMSHelper } = require("botkit-plugin-cms");
 const urlMetadata = require("url-metadata");
 
 
-// Import a platform-specific adapter for web.
-
 const { WebAdapter } = require("botbuilder-adapter-web");
 
 const { MongoDbStorage } = require("botbuilder-storage-mongodb");
 
-// Load process.env values from .env file
 require("dotenv").config();
 
 let storage = null;
@@ -45,19 +35,15 @@ if (process.env.CMS_URI) {
   );
 }
 
-// Once the bot has booted up its internal services, you can use them to do stuff.
 controller.ready(() => {
-  // load traditional developer-created local custom feature modules
   controller.loadModules(__dirname + "/features");
 
-  /* catch-all that uses the CMS to trigger dialogs */
   if (controller.plugins.cms) {
     controller.on("message,direct_message", async (bot, message) => {
       let results = false;
       results = await controller.plugins.cms.testTrigger(bot, message);
 
       if (results !== false) {
-        // do not continue middleware!
         return false;
       }
     });
@@ -71,11 +57,12 @@ var reply = {
   quick_replies: [
     {
       title: "Einen Film vorschlagen",
-      payload: "movie"
+      payload: "movie",
+      typing: true
     },
     {
       title: "Ich bin gerade wunschlos glücklich!",
-      payload: "help"
+      payload: "Nein"
     }
   ]
 };
@@ -84,7 +71,6 @@ controller.hears(
   ["hello", "hallo", "Guten Tag"],
   "message",
   async (bot, message) => {
-    // do something!
     await bot.reply(message, reply);
   }
 );
@@ -93,18 +79,30 @@ controller.hears(
   ["Einen Film vorschlagen", "movie", "film", "Schlag mir einen Film vor"],
   "message",
   async (bot, response_message, response) => {
-    const url = "http://localhost:8000/movies/random";
+   
+
+    const url = "https://movies-api-coral.now.sh/movies/random";
     const data = await (await fetch(url)).json();
     const metadata = await urlMetadata(data.url);
+
     await bot.reply(
       response_message,
-      `<div><p>Hier, der könnte dir gefallen: ${metadata.title}</p><p>${metadata.description}</p><div height:50px"><img src=${metadata.image}/></div></div>`
+      `<div style="text-align:center"><p style="font-weight:bold">Hier, der könnte dir gefallen: ${metadata.title}</p><p>${metadata.description}"</p>  <a href="${metadata.url}">Hier findest du alle weiteren Informationen</a> :) </div>`,
+      
     );
-
-    // await bot.reply(response_message, `${metadata.description}`);
-    // await bot.reply(
-    //   response_message,
-    //   `<img class="steve" style="width:200px; height"200px", src=${metadata.image}/>`
-    // );
   }
 );
+
+controller.hears(["Nein"], "message", async (bot, message) => {
+  bot.reply(
+    message,
+    "Okay, hab noch einen schönen Tag! Melde dich, wenn du Wünsche hast :)"
+  );
+});
+
+controller.hears(["Danke", "Dankeschön"], "message", async (bot, message) => {
+  bot.reply(
+    message,
+    "Immer wieder gerne! Ich bin rund um die Uhr für dich da :)"
+  );
+});

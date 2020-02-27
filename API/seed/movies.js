@@ -1,4 +1,4 @@
- const latestMovies = [
+const latestMovies = [
   {
     title: "Run",
     year: "2020",
