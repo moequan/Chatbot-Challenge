@@ -11,10 +11,13 @@ Anschließend, `npm start` in `/botkit` verwenden um die App zu starten. Am Ende
 Beispiel:
 
 User: "Hallo"
+
 Bot(Quick reply): "Wie kann ich dir weiterhelfen?" : "Einen Film vorschlagen" / "Ich bin gerade wunschlos glücklich!"
 
 (Random Film wird vorgeschlagen) => (Hinweis: die  Ladedauer kann etwas länger sein, weil durch das Deployment."
+
 User: "Danke"
+
 Bot: "Immer wieder gerne! Ich bin rund um die Uhr für dich da :)"
 
 
